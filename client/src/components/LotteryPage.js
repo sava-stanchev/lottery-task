@@ -3,6 +3,7 @@ import {FaRegPlusSquare, FaRegMinusSquare} from "react-icons/fa";
 
 const LotteryPage = () => {
   const [betAmount, setBetAmount] = useState(1.00);
+  const [lotteryDraws, setLotteryDraws] = useState(1);
 
   const displayBetAmount = betAmount.toFixed(2);
   const numbersArr = Array.from({length: 80}, (_, i) => i + 1);
@@ -72,15 +73,21 @@ const LotteryPage = () => {
           <div className="plus-minus">
             <label>Lottery draws:</label>
             <div>
-              <button type="button" className="plus-button" tabIndex="-1">
+              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setLotteryDraws(lotteryDraws + 1)}>
                 <FaRegPlusSquare/>
               </button>
-              <button type="button" className="minus-button" tabIndex="-1">
+              {lotteryDraws === 1 ?
+              <button type="button" className="minus-button" disabled={true} tabIndex="-1">
                 <FaRegMinusSquare/>
               </button>
+              :
+              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setLotteryDraws(lotteryDraws - 1)}>
+                <FaRegMinusSquare/>
+              </button>
+              }
             </div>
           </div>
-          <input type="text" defaultValue="1"/>
+          <input type="text" defaultValue="1" value={lotteryDraws}/>
           <p className ="reminderMsg">
            * Only whole numbers
           </p>
