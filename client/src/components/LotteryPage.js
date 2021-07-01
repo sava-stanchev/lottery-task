@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FaRegPlusSquare, FaRegMinusSquare} from "react-icons/fa";
 
 const LotteryPage = () => {
+  const [betAmount, setBetAmount] = useState(1.00);
+
+  const displayBetAmount = betAmount.toFixed(2);
   const numbersArr = Array.from({length: 80}, (_, i) => i + 1);
 
   const getRows = array => {
@@ -46,15 +49,21 @@ const LotteryPage = () => {
           <div className="plus-minus">
             <label>Bet amount:</label>
             <div>
-              <button type="button" className="plus-button" tabIndex="-1">
+              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setBetAmount(betAmount + 0.20)}>
                 <FaRegPlusSquare/>
               </button>
-              <button type="button" className="minus-button" tabIndex="-1">
+              {displayBetAmount === "0.20" ?
+              <button type="button" className="minus-button" disabled={true} tabIndex="-1">
                 <FaRegMinusSquare/>
               </button>
+              :
+              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setBetAmount(betAmount - 0.20)}>
+                <FaRegMinusSquare/>
+              </button>
+              }
             </div>
           </div>
-          <input type="text" defaultValue="1.00"/>
+          <input type="text" defaultValue="1.00" value={displayBetAmount}/>
           <p className ="reminderMsg">
            * Only numbers with 2 decimal digits
           </p>
