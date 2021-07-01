@@ -6,7 +6,8 @@
 
 body {
   padding: 0;
-  margin: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
   background-color: #2F303A;
   font-family: Poppins, sans-serif;
   font-size: 1.2rem;
@@ -77,4 +78,107 @@ body {
   max-width: 50%;
   padding: 2rem 4rem;
   border-radius: 20px;
+}
+
+.input-group {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group:last-child {
+  margin-bottom: 0;
+}
+
+.input-group label {
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
+.input-group input {
+  outline: none;
+  background: none;
+  border: 1px solid #374669;
+  font-size: 1em;
+  padding: .5em;
+  color: inherit;
+  border-radius: 5px;
+}
+
+.input-group input:focus {
+  border-color: #596da0;
+}
+
+@media (max-width: 900px) {
+  .lottery-main-section {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .lottery-form {
+    width: 80vw;
+    max-width: inherit;
+    margin: 2rem 0;
+  }
+}
+
+.reminderMsg {
+  font-size: 0.85rem;
+  margin-bottom: -1rem;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  color: white;
+  background-color: #1762A7;
+  padding: .75rem 1.5rem;
+  border-radius: .5rem;
+  text-decoration: none;
+  font-size: .9rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #2180d8;
+}
+
+.btn:focus {
+  background-color: #2796ff;
+}
+
+.plus-minus {
+  display: flex;
+  justify-content: space-between;
+}
+
+.plus-button {
+  margin-bottom: 0;
+  color: white;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+
+.minus-button {
+  margin-bottom: 0;
+  color: white;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+
+.price-msg {
+  margin: 0;
+}
+
+.timer {
+  margin-top: 0.3rem;
 }
