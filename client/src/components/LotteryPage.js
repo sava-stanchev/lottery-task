@@ -29,7 +29,7 @@ const LotteryPage = () => {
 
   return(
     <section className="lottery-main-section">
-      <div className="songs-container-main-section">
+      <div className="container-main-section">
         <div className="table-container">
           <table className="table">
             <thead>
@@ -45,12 +45,14 @@ const LotteryPage = () => {
         <div className="input-group">
           <div className="plus-minus">
             <label>Bet amount:</label>
-            <button type="button" className="plus-button" tabIndex="-1">
-              <FaRegPlusSquare/>
-            </button>
-            <button type="button" className="minus-button" tabIndex="-1">
-              <FaRegMinusSquare/>
-            </button>
+            <div>
+              <button type="button" className="plus-button" tabIndex="-1">
+                <FaRegPlusSquare/>
+              </button>
+              <button type="button" className="minus-button" tabIndex="-1">
+                <FaRegMinusSquare/>
+              </button>
+            </div>
           </div>
           <input type="text" defaultValue="1.00"/>
           <p className ="reminderMsg">
@@ -59,13 +61,15 @@ const LotteryPage = () => {
         </div>
         <div className="input-group">
           <div className="plus-minus">
-            <label>Number of lottery draws:</label>
-            <button type="button" className="plus-button" tabIndex="-1">
-              <FaRegPlusSquare/>
-            </button>
-            <button type="button" className="minus-button" tabIndex="-1">
-              <FaRegMinusSquare/>
-            </button>
+            <label>Lottery draws:</label>
+            <div>
+              <button type="button" className="plus-button" tabIndex="-1">
+                <FaRegPlusSquare/>
+              </button>
+              <button type="button" className="minus-button" tabIndex="-1">
+                <FaRegMinusSquare/>
+              </button>
+            </div>
           </div>
           <input type="text" defaultValue="1"/>
           <p className ="reminderMsg">
