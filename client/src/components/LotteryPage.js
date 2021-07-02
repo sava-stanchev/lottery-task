@@ -50,7 +50,7 @@ const LotteryPage = () => {
           <div className="plus-minus">
             <label>Bet amount:</label>
             <div>
-              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setBetAmount(betAmount + 0.20)}>
+              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setBetAmount(+betAmount + 0.20)}>
                 <FaRegPlusSquare/>
               </button>
               {displayBetAmount === "0.20" ?
@@ -58,13 +58,13 @@ const LotteryPage = () => {
                 <FaRegMinusSquare/>
               </button>
               :
-              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setBetAmount(betAmount - 0.20)}>
+              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setBetAmount(+betAmount - 0.20)}>
                 <FaRegMinusSquare/>
               </button>
               }
             </div>
           </div>
-          <input type="text" defaultValue="1.00" value={displayBetAmount}/>
+          <input type="text" defaultValue="1.00" value={displayBetAmount} onChange={e => setBetAmount(e.target.value)}/>
           <p className ="reminderMsg">
            * Only numbers with 2 decimal digits
           </p>
@@ -73,7 +73,7 @@ const LotteryPage = () => {
           <div className="plus-minus">
             <label>Lottery draws:</label>
             <div>
-              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setLotteryDraws(lotteryDraws + 1)}>
+              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setLotteryDraws(+lotteryDraws + 1)}>
                 <FaRegPlusSquare/>
               </button>
               {lotteryDraws === 1 ?
@@ -81,13 +81,13 @@ const LotteryPage = () => {
                 <FaRegMinusSquare/>
               </button>
               :
-              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setLotteryDraws(lotteryDraws - 1)}>
+              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setLotteryDraws(+lotteryDraws - 1)}>
                 <FaRegMinusSquare/>
               </button>
               }
             </div>
           </div>
-          <input type="text" defaultValue="1" value={lotteryDraws}/>
+          <input type="text" defaultValue="1" value={lotteryDraws} onChange={e => setLotteryDraws(e.target.value)}/>
           <p className ="reminderMsg">
            * Only whole numbers
           </p>
