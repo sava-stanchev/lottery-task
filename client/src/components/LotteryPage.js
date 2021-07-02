@@ -1,9 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FaRegPlusSquare, FaRegMinusSquare} from "react-icons/fa";
 
 const LotteryPage = () => {
   const [betAmount, setBetAmount] = useState(1.00);
   const [lotteryDraws, setLotteryDraws] = useState(1);
+  const [seconds, setSeconds] = useState(0)
+  const [minutes, setMinutes] = useState(3)
+
+  const updateTime = () => {
+    if (minutes === 0 && seconds === 0) {
+      setSeconds(0);
+      setMinutes(3);
+    } else {
+      if (seconds === 0) {
+        setMinutes(minutes => minutes - 1);
+        setSeconds(59);
+      } else {
+        setSeconds(seconds => seconds - 1);
+      }
+    }
+  }
+
+  useEffect(() => {
+    const token = setTimeout(updateTime, 1000)
+
+    return function cleanUp() {
+      clearTimeout(token);
+    }
+  })
 
   const displayBetAmount = betAmount.toFixed(2);
   const numbersArr = Array.from({length: 80}, (_, i) => i + 1);
@@ -30,6 +54,12 @@ const LotteryPage = () => {
       </tbody>
     )
   })
+
+  const pad = (num, size) => {
+    let s = num + ""; 
+    while (s.length < size) s = "0" + s; 
+    return s;
+  }
 
   return(
     <section className="lottery-main-section">
@@ -94,7 +124,7 @@ const LotteryPage = () => {
         </div>
         <div className="input-group">
           <p className ="price-msg">Final cost: 15</p>
-          <p className ="timer">Timer: 02:59</p>
+          <p className ="timer">Timer: {pad(minutes, 2)}:{pad(seconds, 2)}</p>
           <button disabled={true} className="btn">Try your luck!</button>
         </div>
       </form>
