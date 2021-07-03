@@ -65,8 +65,8 @@ const LotteryPage = () => {
               <td>
                 <button
                 className="number-btn"
-                style={selectedNums.includes(num) ? {color: 'red'} : {color: 'black'}}
-                disabled={selectedNums.length === 12 ? true : false}
+                style={selectedNums.includes(num) ? {backgroundColor: 'gold'} : {backgroundColor: 'white'}}
+                disabled={selectedNums.length === 12 && !selectedNums.includes(num) ? true : false}
                 onClick={() => buttonClick(num)}
                 >{num}</button>
               </td>
