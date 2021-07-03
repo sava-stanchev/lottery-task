@@ -4,8 +4,9 @@ import {FaRegPlusSquare, FaRegMinusSquare} from "react-icons/fa";
 const LotteryPage = () => {
   const [betAmount, setBetAmount] = useState(1.00);
   const [lotteryDraws, setLotteryDraws] = useState(1);
-  const [seconds, setSeconds] = useState(0)
-  const [minutes, setMinutes] = useState(3)
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(3);
+  const [selectedNums, setSelectedNums] = useState([]);
 
   const updateTime = () => {
     if (minutes === 0 && seconds === 0) {
@@ -29,6 +30,12 @@ const LotteryPage = () => {
     }
   })
 
+  if (minutes === 0 && seconds === 0) {
+    fetch('https://jsonplaceholder.typicode.com/posts/1')
+    .then((response) => response.json())
+    .then((json) => console.log(json));
+  }
+
   const displayBetAmount = betAmount.toFixed(2);
   const numbersArr = Array.from({length: 80}, (_, i) => i + 1);
 
@@ -41,13 +48,28 @@ const LotteryPage = () => {
 
   const rowNumbers = getRows(numbersArr);
 
+  const buttonClick = (num) => {
+    if (selectedNums.includes(num)) {
+      setSelectedNums(selectedNums.filter(el => el !== num));
+    } else {
+      setSelectedNums(selectedNums.concat(num));
+    }
+  }
+
   const displayNumbers = rowNumbers.map((row) => {
     return (
       <tbody>
         <tr style={{outline: '#202027 thin solid'}}>
           {row.map((num) => {
             return (
-              <td><button className="number-btn">{num}</button></td>
+              <td>
+                <button
+                className="number-btn"
+                style={selectedNums.includes(num) ? {color: 'red'} : {color: 'black'}}
+                disabled={selectedNums.length === 12 ? true : false}
+                onClick={() => buttonClick(num)}
+                >{num}</button>
+              </td>
             )
           })}
         </tr>
