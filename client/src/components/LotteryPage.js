@@ -33,7 +33,7 @@ const LotteryPage = () => {
   if (minutes === 0 && seconds === 0) {
     fetch('https://jsonplaceholder.typicode.com/posts/1')
     .then((response) => response.json())
-    .then((json) => console.log(json));
+    .then((json) => console.log(json.title));
   }
 
   const displayBetAmount = betAmount.toFixed(2);
@@ -145,7 +145,7 @@ const LotteryPage = () => {
           </p>
         </div>
         <div className="input-group">
-          <p className ="price-msg">Final cost: 15</p>
+          <p className ="price-msg">Price: {(selectedNums.length * betAmount * lotteryDraws).toFixed(2)}</p>
           <p className ="timer">Timer: {pad(minutes, 2)}:{pad(seconds, 2)}</p>
           <button disabled={true} className="btn">Try your luck!</button>
         </div>
