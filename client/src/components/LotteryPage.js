@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {FaRegPlusSquare, FaRegMinusSquare} from "react-icons/fa";
 
 const LotteryPage = () => {
-  const [betAmount, setBetAmount] = useState(1.00);
+  const [betAmount, setBetAmount] = useState("1.00");
+  const [inputBetAmount, setInputBetAmount] = useState('1.00');
   const [lotteryDraws, setLotteryDraws] = useState(1);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(3);
@@ -36,7 +37,7 @@ const LotteryPage = () => {
     .then((json) => console.log(json.title));
   }
 
-  const displayBetAmount = betAmount.toFixed(2);
+  const displayBetAmount = (parseFloat(betAmount) || 0).toFixed(2);
   const numbersArr = Array.from({length: 80}, (_, i) => i + 1);
 
   const getRows = array => {
@@ -83,6 +84,18 @@ const LotteryPage = () => {
     return s;
   }
 
+  const price = (selectedNums.length * betAmount * lotteryDraws).toFixed(2);
+
+  const setInput = (value) => {
+    setInputBetAmount(value);
+    setBetAmount(value);
+  }
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,      
+    maximumFractionDigits: 2,
+  });
+
   return(
     <section className="lottery-main-section">
       <div className="container-main-section">
@@ -102,22 +115,28 @@ const LotteryPage = () => {
           <div className="plus-minus">
             <label>Bet amount:</label>
             <div>
-              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setBetAmount(+betAmount + 0.20)}>
+              <button
+              type="button"
+              className="plus-button"
+              tabIndex="-1"
+              onClick={() => inputBetAmount !== '1.00' ? setInputBetAmount(formatter.format(+inputBetAmount + 0.20)) : setBetAmount(+betAmount + 0.20)}>
                 <FaRegPlusSquare/>
               </button>
-              {displayBetAmount === "0.20" ?
-              <button type="button" className="minus-button" disabled={true} tabIndex="-1">
+              <button
+              type="button"
+              className="minus-button"
+              disabled={displayBetAmount === '0.20' ? true : false}
+              tabIndex="-1"
+              onClick={() => inputBetAmount !== '1.00' ? setInputBetAmount(formatter.format(+inputBetAmount - 0.20)) : setBetAmount(+betAmount - 0.20)}>
                 <FaRegMinusSquare/>
               </button>
-              :
-              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setBetAmount(+betAmount - 0.20)}>
-                <FaRegMinusSquare/>
-              </button>
-              }
             </div>
           </div>
-          <input type="text" defaultValue="1.00" value={displayBetAmount} onChange={e => setBetAmount(e.target.value)}/>
-          <p className ="reminderMsg">
+          <input
+          type="text"
+          value={inputBetAmount !== '1.00' ? inputBetAmount : displayBetAmount}
+          onChange={e => setInput(e.target.value)}/>
+          <p className ="reminderMsg" style={/^[0-9]+(\.[0-9]{2})$/.test(inputBetAmount) ? {color: 'white'} : {color: 'red'}}>
            * Only numbers with 2 decimal digits
           </p>
         </div>
@@ -125,27 +144,30 @@ const LotteryPage = () => {
           <div className="plus-minus">
             <label>Lottery draws:</label>
             <div>
-              <button type="button" className="plus-button" tabIndex="-1" onClick={() => setLotteryDraws(+lotteryDraws + 1)}>
+              <button
+              type="button"
+              className="plus-button"
+              tabIndex="-1"
+              onClick={() => setLotteryDraws(+lotteryDraws + 1)}>
                 <FaRegPlusSquare/>
               </button>
-              {lotteryDraws === 1 ?
-              <button type="button" className="minus-button" disabled={true} tabIndex="-1">
+              <button
+              type="button"
+              className="minus-button"
+              disabled={lotteryDraws === 1 ? true : false}
+              tabIndex="-1"
+              onClick={() => setLotteryDraws(+lotteryDraws - 1)}>
                 <FaRegMinusSquare/>
               </button>
-              :
-              <button type="button" className="minus-button" tabIndex="-1" onClick={() => setLotteryDraws(+lotteryDraws - 1)}>
-                <FaRegMinusSquare/>
-              </button>
-              }
             </div>
           </div>
-          <input type="text" defaultValue="1" value={lotteryDraws} onChange={e => setLotteryDraws(e.target.value)}/>
-          <p className ="reminderMsg">
+          <input type="text" value={lotteryDraws} onChange={e => setLotteryDraws(e.target.value)}/>
+          <p className ="reminderMsg" style={isNaN(lotteryDraws) ? {color: 'red'} : {color: 'white'}}>
            * Only whole numbers
           </p>
         </div>
         <div className="input-group">
-          <p className ="price-msg">Price: {(selectedNums.length * betAmount * lotteryDraws).toFixed(2)}</p>
+          <p className ="price-msg">Price: {isNaN(price) ? "0.00" : price}</p>
           <p className ="timer">Timer: {pad(minutes, 2)}:{pad(seconds, 2)}</p>
           <button disabled={true} className="btn">Try your luck!</button>
         </div>
