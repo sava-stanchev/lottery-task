@@ -1,18 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {FaRegPlusSquare, FaRegMinusSquare} from "react-icons/fa";
+import {AMOUNT_TO_SELECT, MINUTES, NUMBERS, NUMBERS_PER_ROW, SECONDS} from '../common/constants';
 
 const LotteryPage = () => {
   const [betAmount, setBetAmount] = useState("1.00");
   const [inputBetAmount, setInputBetAmount] = useState('1.00');
   const [lotteryDraws, setLotteryDraws] = useState(1);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(3);
+  const [seconds, setSeconds] = useState(SECONDS);
+  const [minutes, setMinutes] = useState(MINUTES);
   const [selectedNums, setSelectedNums] = useState([]);
+  const [comment, setComment] = useState(null);
+  const [url, setUrl] = useState('');
+  const someRef = React.useRef(0);
 
   const updateTime = () => {
     if (minutes === 0 && seconds === 0) {
-      setSeconds(0);
-      setMinutes(3);
+      setSeconds(SECONDS);
+      setMinutes(MINUTES);
     } else {
       if (seconds === 0) {
         setMinutes(minutes => minutes - 1);
@@ -31,19 +35,34 @@ const LotteryPage = () => {
     }
   })
 
-  if (minutes === 0 && seconds === 0) {
-    fetch('https://jsonplaceholder.typicode.com/posts/1')
+  const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+  const mockAPI = () => {
+    return new Promise((resolve) => {
+      someRef.current = someRef.current + 1;
+      setTimeout(() => resolve(`https://jsonplaceholder.typicode.com/posts/${random(1, 10)}` + someRef.current), 1000);
+    });
+  }
+
+  useEffect(() => {
+    if (minutes === MINUTES && seconds === SECONDS) {
+      mockAPI().then((data) => setUrl(data));
+    }
+  }, [minutes, seconds]);
+
+  if (url && minutes === 2 && seconds === 59) {
+    fetch(url)
     .then((response) => response.json())
-    .then((json) => console.log(json.title));
+    .then((data) => setComment(data.title));
   }
 
   const displayBetAmount = (parseFloat(betAmount) || 0).toFixed(2);
-  const numbersArr = Array.from({length: 80}, (_, i) => i + 1);
+  const numbersArr = Array.from({length: NUMBERS}, (_, i) => i + 1);
 
   const getRows = array => {
     let result = [],
     i = 0;
-    while (i < array.length) result.push(array.slice(i, i += 10));
+    while (i < array.length) result.push(array.slice(i, i += NUMBERS_PER_ROW));
     return result;
   };
 
@@ -66,7 +85,7 @@ const LotteryPage = () => {
               <button
               className="number-btn"
               style={selectedNums.includes(num) ? {backgroundColor: 'gold'} : {backgroundColor: 'white'}}
-              disabled={selectedNums.length === 12 && !selectedNums.includes(num) ? true : false}
+              disabled={selectedNums.length === AMOUNT_TO_SELECT && !selectedNums.includes(num) ? true : false}
               onClick={() => buttonClick(num)}
               >{num}</button>
             </div>
@@ -98,7 +117,6 @@ const LotteryPage = () => {
     <section className="lottery-main-section">
       <div className="container-main-section">
         <div className="table-container" role="table">
-
           {displayNumbers}
         </div>
       </div>
@@ -161,6 +179,7 @@ const LotteryPage = () => {
         <div className="input-group">
           <p className ="price-msg">Price: {isNaN(price) ? "0.00" : price}</p>
           <p className ="timer">Timer: {pad(minutes, 2)}:{pad(seconds, 2)}</p>
+          <p className="quote">Trending comment: <i>"{comment}"</i></p>
           <button disabled={true} className="btn">Try your luck!</button>
         </div>
       </form>
