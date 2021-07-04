@@ -59,22 +59,20 @@ const LotteryPage = () => {
 
   const displayNumbers = rowNumbers.map((row) => {
     return (
-      <tbody>
-        <tr style={{outline: '#202027 thin solid'}}>
-          {row.map((num) => {
-            return (
-              <td>
-                <button
-                className="number-btn"
-                style={selectedNums.includes(num) ? {backgroundColor: 'gold'} : {backgroundColor: 'white'}}
-                disabled={selectedNums.length === 12 && !selectedNums.includes(num) ? true : false}
-                onClick={() => buttonClick(num)}
-                >{num}</button>
-              </td>
-            )
-          })}
-        </tr>
-      </tbody>
+      <div className="flex-table row" role="rowgroup">
+        {row.map((num) => {
+          return (
+            <div className="flex-row" role="cell">
+              <button
+              className="number-btn"
+              style={selectedNums.includes(num) ? {backgroundColor: 'gold'} : {backgroundColor: 'white'}}
+              disabled={selectedNums.length === 12 && !selectedNums.includes(num) ? true : false}
+              onClick={() => buttonClick(num)}
+              >{num}</button>
+            </div>
+          )
+        })}
+      </div>
     )
   })
 
@@ -99,15 +97,9 @@ const LotteryPage = () => {
   return(
     <section className="lottery-main-section">
       <div className="container-main-section">
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th colSpan="10">Select 12 numbers!</th>  
-              </tr>
-            </thead>
-            {displayNumbers}
-          </table>
+        <div className="table-container" role="table">
+
+          {displayNumbers}
         </div>
       </div>
       <form className="lottery-form">
@@ -142,7 +134,7 @@ const LotteryPage = () => {
         </div>
         <div className="input-group">
           <div className="plus-minus">
-            <label>Lottery draws:</label>
+            <label>Draws:</label>
             <div>
               <button
               type="button"
